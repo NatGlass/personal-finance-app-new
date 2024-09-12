@@ -1,6 +1,7 @@
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";
 import BalanceSummary from "./_components/balance/balance-summary";
+import PotsSummary from "./_components/pots/pots-summary";
 
 function OverviewPage() {
   return (
@@ -11,6 +12,7 @@ function OverviewPage() {
         </Typography>
       </div>
       <BalanceSummary />
+      <PotsSummary />
     </PageContainer>
   );
 }
