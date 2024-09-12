@@ -55,7 +55,7 @@ export async function registerAction(
       sessionCookie.attributes
     );
 
-    return redirect("/dashboard");
+    return redirect("/overview");
   } catch (error) {
     if (isRedirectError(error)) throw error;
 
