@@ -12,11 +12,11 @@ export async function createPotAction(data: NewPotFormType) {
     throw new Error("User must be authenticated to create a pot.");
   }
 
-  await prisma.pots.create({
+  await prisma.pot.create({
     data: {
       name: data.name,
-      balance: data.balance,
-      targetBalance: data.target,
+      total: data.total || 0,
+      target: data.target,
       theme: data.theme,
       userId: user.id,
     },

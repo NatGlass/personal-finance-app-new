@@ -8,6 +8,13 @@ import AddNewPotModal from "./_components/add-new-pot-modal";
 async function PotsPage() {
   const potsData = await getUsersPots();
 
+  const sortedPots = potsData?.sort((a, b) => {
+    const dateA = new Date(a.updatedAt || a.createdAt).getTime();
+    const dateB = new Date(b.updatedAt || b.createdAt).getTime();
+    return dateB - dateA; // Newest first
+  });
+
+
   return (
     <PageContainer>
       <div className="col-span-full flex justify-between items-center">
@@ -17,7 +24,7 @@ async function PotsPage() {
         <AddNewPotModal />
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6 col-span-full">
-        {potsData?.map((pot) => {
+        {sortedPots?.map((pot) => {
           const validColour = colourMap[pot.theme as keyof typeof colourMap]
             ? (pot.theme as keyof typeof colourMap)
             : "green";

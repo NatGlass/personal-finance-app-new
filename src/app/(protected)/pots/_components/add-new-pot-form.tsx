@@ -32,7 +32,7 @@ function AddNewPotForm({ setOpen }: AddNewPotFormProps) {
     defaultValues: {
       name: "",
       target: 0,
-      balance: 0,
+      total: 0,
       theme: "green",
     },
     resolver: zodResolver(newPotSchema),
@@ -61,7 +61,7 @@ function AddNewPotForm({ setOpen }: AddNewPotFormProps) {
         />
         <FormField
           control={form.control}
-          name="balance"
+          name="total"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Balance</FormLabel>
