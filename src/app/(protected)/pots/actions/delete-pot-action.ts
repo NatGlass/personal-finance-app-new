@@ -39,21 +39,19 @@ export async function deletePotAction(potId: string): Promise<PotActionResult> {
 
   const updatedBalance = usersBalance.currentBalance + pot.total;
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { currentBalance: updatedBalance },
+  return await prisma.$transaction(async (prisma) => {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { currentBalance: updatedBalance },
+    });
+
+    await prisma.pot.delete({
+      where: { id: potId },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/pots");
+
+    return { success: true };
   });
-
-  const result = await prisma.pot.delete({
-    where: { id: potId },
-  });
-
-  if (!result) {
-    return { error: "An error occurred while trying to delete the pot." };
-  }
-
-  revalidatePath("/");
-  revalidatePath("/pots");
-
-  return { success: true };
 }

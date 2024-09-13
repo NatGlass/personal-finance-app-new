@@ -52,23 +52,25 @@ export async function createPotAction(
 
   const updatedBalance = usersBalance.currentBalance - parsedData.total;
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: { currentBalance: updatedBalance },
+  return await prisma.$transaction(async (prisma) => {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { currentBalance: updatedBalance },
+    });
+
+    await prisma.pot.create({
+      data: {
+        name: parsedData.name,
+        total: parsedData.total || 0,
+        target: parsedData.target,
+        theme: parsedData.theme,
+        userId: user.id,
+      },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/pots");
+
+    return { success: true };
   });
-
-  await prisma.pot.create({
-    data: {
-      name: parsedData.name,
-      total: parsedData.total || 0,
-      target: parsedData.target,
-      theme: parsedData.theme,
-      userId: user.id,
-    },
-  });
-
-  revalidatePath("/");
-  revalidatePath("/pots");
-
-  return { success: true };
 }
