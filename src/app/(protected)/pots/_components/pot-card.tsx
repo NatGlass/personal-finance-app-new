@@ -1,28 +1,24 @@
 import ColourBadge from "@/components/common/colour-badge";
-import type { colourMap } from "@/components/common/colour-map";
 import { Typography } from "@/components/typography/typography";
 import Values from "./values";
 import PotActionsButton from "./pot-actions-button";
+import type { PotFormSchemaType } from "../validators";
 
 interface PotCardProps {
-  id: string;
-  title: string;
-  colour: keyof typeof colourMap;
-  total: number;
-  target: number;
+  pot: PotFormSchemaType & { id: string };
 }
 
-function PotCard({ id, title, colour, total, target }: PotCardProps) {
+function PotCard({pot}: PotCardProps) {
   return (
     <div className="w-full bg-white rounded-[12px] px-6 py-5 md:p-6">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-x-4">
-          <ColourBadge colour={colour} />
-          <Typography variant="preset2">{title}</Typography>
+          <ColourBadge colour={pot.theme} />
+          <Typography variant="preset2">{pot.name}</Typography>
         </div>
-        <PotActionsButton id={id} />
+        <PotActionsButton pot={pot} />
       </div>
-      <Values total={total} colour={colour} target={target} />
+      <Values total={pot.total || 0} colour={pot.theme} target={pot.target} />
     </div>
   );
 }

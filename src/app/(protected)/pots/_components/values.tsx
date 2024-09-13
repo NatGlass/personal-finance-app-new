@@ -14,7 +14,9 @@ interface ValuesProps {
 }
 
 function Values({ total, colour, target }: ValuesProps) {
-  const percentageSaved = (total / target) * 100;
+
+  const percentageSavedRaw = (total / target) * 100;
+  const percentageSaved = Math.min(percentageSavedRaw, 100);
 
   return (
     <div className="my-8">
@@ -27,7 +29,7 @@ function Values({ total, colour, target }: ValuesProps) {
       <Progress value={percentageSaved} className="h-2 mt-4" fillColour={colour} />
       <div className="mt-[13px] flex justify-between items-center">
         <Typography variant="preset5_bold" className="text-grey-500">
-          {percentageSaved.toFixed(2)}%
+          {percentageSavedRaw.toFixed(2)}%
         </Typography>
         <Typography variant="preset5" className="text-grey-500">
           Target of {formatCurrency(target)}

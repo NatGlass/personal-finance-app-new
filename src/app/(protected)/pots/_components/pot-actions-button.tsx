@@ -11,12 +11,21 @@ import {
 import useConfirmationModal from "@/hooks/use-confirmation-modal";
 import { Ellipsis } from "lucide-react";
 import { deletePotById } from "../actions/deletePotById";
+import { useState } from "react";
+import PotModal from "./pot-modal";
+import type { PotFormSchemaType } from "../validators";
 
-function PotActionsModal({ id }: { id: string }) {
+interface PotActionsModalProps {
+  pot: PotFormSchemaType & { id: string };
+}
+
+function PotActionsModal({ pot }: PotActionsModalProps) {
   const [ConfirmDialog, confirmation] = useConfirmationModal({
     title: "Are you sure you want to delete this pot?",
     message: "This action cannot be undone.",
   });
+
+  const [openEditModal, setOpenEditModal] = useState(false);
 
   const deletePot = async (id: string) => {
     const confirmed = await confirmation();
@@ -29,6 +38,7 @@ function PotActionsModal({ id }: { id: string }) {
   return (
     <>
       <ConfirmDialog />
+      <PotModal pot={pot} open={openEditModal} onOpenChange={setOpenEditModal} />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size="icon" variant="link">
@@ -36,11 +46,11 @@ function PotActionsModal({ id }: { id: string }) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem>Edit Pot</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenEditModal(true)}>Edit Pot</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-red"
-            onClick={deletePot.bind(null, id)}
+            onClick={deletePot.bind(null, pot.id)}
           >
             Delete Pot
           </DropdownMenuItem>

@@ -21,25 +21,40 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { createPotAction } from "../actions/create-pot-action";
-import { type NewPotFormType, newPotSchema } from "../validators";
+import { updatePotAction } from "../actions/update-pot-action";
+import { potSchema, type PotFormSchemaType } from "../validators";
 
-interface AddNewPotFormProps {
+interface PotFormProps {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+  pot?: PotFormSchemaType & { id: string };
 }
 
-function AddNewPotForm({ setOpen }: AddNewPotFormProps) {
-  const form = useForm<NewPotFormType>({
-    defaultValues: {
-      name: "",
-      target: 0,
-      total: 0,
-      theme: "green",
-    },
-    resolver: zodResolver(newPotSchema),
+function PotForm({ setOpen, pot }: PotFormProps) {
+  const isEditing = pot != null;
+
+  const form = useForm<PotFormSchemaType>({
+    defaultValues: isEditing
+      ? {
+          name: pot.name,
+          target: pot.target,
+          total: pot.total,
+          theme: pot.theme,
+        }
+      : {
+          name: "",
+          target: 0,
+          total: 0,
+          theme: "green",
+        },
+    resolver: zodResolver(potSchema),
   });
 
-  const onSubmit = async (data: NewPotFormType) => {
-    await createPotAction(data);
+  const onSubmit = async (data: PotFormSchemaType) => {
+    if (isEditing) {
+      await updatePotAction(data, pot.id);
+    } else {
+      await createPotAction(data);
+    }
     if (setOpen) setOpen(false);
   };
 
@@ -98,7 +113,10 @@ function AddNewPotForm({ setOpen }: AddNewPotFormProps) {
             <FormItem>
               <FormLabel>Theme</FormLabel>
               <FormControl>
-                <Select onValueChange={field.onChange}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <SelectTrigger>
                     <div className="inline-flex items-center">
                       <SelectColourIndicator colour={field.value} />
@@ -124,11 +142,11 @@ function AddNewPotForm({ setOpen }: AddNewPotFormProps) {
         />
 
         <Button className="w-full" type="submit">
-          Add New Pot
+          {isEditing ? "Update Pot" : "Add New Pot"}
         </Button>
       </form>
     </Form>
   );
 }
 
-export default AddNewPotForm;
+export default PotForm;
