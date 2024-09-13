@@ -57,7 +57,7 @@ export async function createPotAction(
   await prisma.pot.create({
     data: {
       name: parsedData.name,
-      total: parsedData.total,
+      total: parsedData.total || 0,
       target: parsedData.target,
       theme: parsedData.theme,
       userId: user.id,

@@ -4,11 +4,13 @@ import { validateServerSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export async function deletePotById(potId: string) {
+type PotActionResult = { success: true } | { error: string };
+
+export async function deletePotAction(potId: string): Promise<PotActionResult> {
   const { user } = await validateServerSession();
 
   if (!user) {
-    return null;
+    return { error: "User must be authenticated to delete a pot." };
   }
 
   const result = await prisma.pot.deleteMany({
@@ -19,10 +21,12 @@ export async function deletePotById(potId: string) {
   });
 
   if (result.count === 0) {
-    return null;
+    return {
+      error: "No pot found or you're not authorised to delete this pot.",
+    };
   }
 
   revalidatePath("/pots");
 
-  return result;
+  return { success: true };
 }
