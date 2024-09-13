@@ -10,35 +10,40 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useConfirmationModal from "@/hooks/use-confirmation-modal";
 import { Ellipsis } from "lucide-react";
-import { deletePotById } from "../actions/deletePotById";
 import { useState } from "react";
-import PotModal from "./pot-modal";
+import { deletePotAction } from "../actions/delete-pot-action";
 import type { PotFormSchemaType } from "../validators";
+import PotModal from "./pot-modal";
 
 interface PotActionsModalProps {
   pot: PotFormSchemaType & { id: string };
 }
 
 function PotActionsModal({ pot }: PotActionsModalProps) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   const [ConfirmDialog, confirmation] = useConfirmationModal({
     title: "Are you sure you want to delete this pot?",
     message: "This action cannot be undone.",
   });
-
-  const [openEditModal, setOpenEditModal] = useState(false);
 
   const deletePot = async (id: string) => {
     const confirmed = await confirmation();
 
     if (!confirmed) return;
 
-    await deletePotById(id);
+    await deletePotAction(id);
   };
 
   return (
     <>
       <ConfirmDialog />
-      <PotModal pot={pot} open={openEditModal} onOpenChange={setOpenEditModal} />
+      <PotModal
+        open={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        pot={pot}
+        operation="edit"
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button size="icon" variant="link">
@@ -46,11 +51,11 @@ function PotActionsModal({ pot }: PotActionsModalProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => setOpenEditModal(true)}>Edit Pot</DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => setIsEditModalOpen(true)}>Edit Pot</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-red"
-            onClick={deletePot.bind(null, pot.id)}
+            onSelect={deletePot.bind(null, pot.id)}
           >
             Delete Pot
           </DropdownMenuItem>

@@ -3,6 +3,7 @@ import { Typography } from "@/components/typography/typography";
 import Values from "./values";
 import PotActionsButton from "./pot-actions-button";
 import type { PotFormSchemaType } from "../validators";
+import PotTransactionButtons from "./pot-transactions-buttons";
 
 interface PotCardProps {
   pot: PotFormSchemaType & { id: string };
@@ -19,6 +20,7 @@ function PotCard({pot}: PotCardProps) {
         <PotActionsButton pot={pot} />
       </div>
       <Values total={pot.total || 0} colour={pot.theme} target={pot.target} />
+      <PotTransactionButtons potId={pot.id} />
     </div>
   );
 }

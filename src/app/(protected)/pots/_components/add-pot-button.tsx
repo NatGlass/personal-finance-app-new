@@ -7,6 +7,7 @@ import PotModal from "./pot-modal";
 function AddPotButton() {
   return (
     <PotModal
+      operation="create"
       triggerButton={
         <Button className="mb-8">
           <PlusIcon className="size-4 mr-2" />
