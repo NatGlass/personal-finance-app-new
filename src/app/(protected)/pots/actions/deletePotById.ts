@@ -3,8 +3,8 @@
 import { validateServerSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import type { PotActionResult } from "../types";
 
-type PotActionResult = { success: true } | { error: string };
 
 export async function deletePotAction(potId: string): Promise<PotActionResult> {
   const { user } = await validateServerSession();

@@ -5,8 +5,8 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 import { type PotFormSchemaType, potSchema } from "../validators";
+import type { PotActionResult } from "../types";
 
-type PotActionResult = { success: true } | { error: string };
 
 export async function updatePotAction(
   data: PotFormSchemaType,

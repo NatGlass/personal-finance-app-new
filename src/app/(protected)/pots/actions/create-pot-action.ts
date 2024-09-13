@@ -5,8 +5,7 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { ZodError } from "zod";
 import { type PotFormSchemaType, potSchema } from "../validators";
-
-type PotActionResult = { success: true } | { error: string };
+import type { PotActionResult } from "../types";
 
 export async function createPotAction(
   data: PotFormSchemaType
@@ -36,6 +35,10 @@ export async function createPotAction(
 
   if (!usersBalance) {
     return { error: "User does not have a balance." };
+  }
+
+  if (parsedData.total === undefined) {
+    return { error: "Total is required." };
   }
 
   if (
