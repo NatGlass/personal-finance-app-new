@@ -3,9 +3,9 @@
 import { validateServerSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import type { NewPotFormType } from "../validators";
+import type { PotFormSchemaType } from "../validators";
 
-export async function createPotAction(data: NewPotFormType) {
+export async function createPotAction(data: PotFormSchemaType) {
   const { user } = await validateServerSession();
 
   if (!user) {
