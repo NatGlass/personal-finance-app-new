@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { createPotAction } from "../actions/create-pot-action";
 import { updatePotAction } from "../actions/update-pot-action";
-import { potSchema, type PotFormSchemaType } from "../validators";
+import { type PotFormSchemaType, potSchema } from "../validators";
 
 interface PotFormProps {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -50,17 +50,41 @@ function PotForm({ setOpen, pot }: PotFormProps) {
   });
 
   const onSubmit = async (data: PotFormSchemaType) => {
-    if (isEditing) {
-      await updatePotAction(data, pot.id);
-    } else {
-      await createPotAction(data);
+    try {
+      let result;
+      if (isEditing) {
+        result = await updatePotAction(data, pot.id);
+      } else {
+        result = await createPotAction(data);
+      }
+
+      if ("error" in result) {
+        form.setError("root", {
+          type: "server",
+          message: result.error,
+        });
+        return;
+      }
+
+      if (setOpen) setOpen(false);
+    } catch (error: unknown) {
+      let errorMessage = "An unexpected error occurred.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      form.setError("root", {
+        type: "server",
+        message: errorMessage,
+      });
     }
-    if (setOpen) setOpen(false);
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {form.formState.errors.root && (
+          <div className="text-red">{form.formState.errors.root.message}</div>
+        )}
         <FormField
           control={form.control}
           name="name"
@@ -83,6 +107,7 @@ function PotForm({ setOpen, pot }: PotFormProps) {
               <FormControl>
                 <Input
                   {...field}
+                  type="number"
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>
@@ -99,6 +124,7 @@ function PotForm({ setOpen, pot }: PotFormProps) {
               <FormControl>
                 <Input
                   {...field}
+                  type="number"
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>

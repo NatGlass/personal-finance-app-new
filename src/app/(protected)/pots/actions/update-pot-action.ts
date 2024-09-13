@@ -3,13 +3,31 @@
 import { validateServerSession } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import type { PotFormSchemaType } from "../validators";
+import { ZodError } from "zod";
+import { type PotFormSchemaType, potSchema } from "../validators";
 
-export async function updatePotAction(data: PotFormSchemaType, id: string) {
+type PotActionResult = { success: true } | { error: string };
+
+export async function updatePotAction(
+  data: PotFormSchemaType,
+  id: string
+): Promise<PotActionResult> {
   const { user } = await validateServerSession();
 
   if (!user) {
-    throw new Error("User must be authenticated to update a pot.");
+    return {
+      error: "User must be authenticated to update a pot.",
+    };
+  }
+
+  let parsedData: PotFormSchemaType;
+  try {
+    parsedData = potSchema.parse(data);
+  } catch (err) {
+    if (err instanceof ZodError) {
+      return { error: err.errors.map((e) => e.message).join(", ") };
+    }
+    return { error: "Invalid input data." };
   }
 
   await prisma.pot.update({
@@ -17,13 +35,15 @@ export async function updatePotAction(data: PotFormSchemaType, id: string) {
       id: id,
     },
     data: {
-      name: data.name,
-      total: data.total || 0,
-      target: data.target,
-      theme: data.theme,
+      name: parsedData.name,
+      total: parsedData.total,
+      target: parsedData.target,
+      theme: parsedData.theme,
       userId: user.id,
     },
   });
 
   revalidatePath("/pots");
+
+  return { success: true };
 }
