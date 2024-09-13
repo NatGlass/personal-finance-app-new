@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { createPotAction } from "../actions/create-pot-action";
 import { updatePotAction } from "../actions/update-pot-action";
 import { type PotFormSchemaType, potSchema } from "../validators";
+import { colourMap } from "@/components/common/colour-map";
 
 interface PotFormProps {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -149,16 +150,26 @@ function PotForm({ setOpen, pot }: PotFormProps) {
                       <SelectValue placeholder="Select a theme" />
                     </div>
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="green" colour="green">
-                      Green
-                    </SelectItem>
-                    <SelectItem value="blue" colour="blue">
-                      Blue
-                    </SelectItem>
-                    <SelectItem value="red" colour="red">
-                      Red
-                    </SelectItem>
+                  <SelectContent className="max-h-[250px] overflow-y-scroll">
+                    {Object.entries(colourMap).map(([value]) => {
+                      // Replace hyphen with space and capitalize both words if hyphen exists
+                      const formattedValue = value
+                        .split("-")
+                        .map(
+                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        )
+                        .join(" ");
+
+                      return (
+                        <SelectItem
+                          key={value}
+                          value={value}
+                          colour={value as keyof typeof colourMap}
+                        >
+                          {formattedValue}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               </FormControl>

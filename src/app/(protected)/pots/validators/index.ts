@@ -7,9 +7,28 @@ export const potSchema = z.object({
     .max(30, "Name must be at most 30 characters long"),
   target: z.number().positive("Target must be greater than 0"),
   total: z.number().optional(),
-  theme: z.enum(["green", "blue", "red", "yellow", "navy", "cyan"], {
-    required_error: "Theme is required",
-  }),
+  theme: z.enum(
+    [
+      "green",
+      "blue",
+      "red",
+      "yellow",
+      "navy",
+      "cyan",
+      "purple",
+      "turquoise",
+      "brown",
+      "magenta",
+      "pink",
+      "gold",
+      "orange",
+      "navy-grey",
+      "army-green",
+    ],
+    {
+      required_error: "Theme is required",
+    }
+  ),
 });
 
 export const potTransactionSchema = z.object({
