@@ -32,6 +32,7 @@ async function PotsPage() {
           return (
             <PotCard
               key={pot.id}
+              id={pot.id}
               title={pot.name}
               colour={validColour}
               total={pot.total || 0}
