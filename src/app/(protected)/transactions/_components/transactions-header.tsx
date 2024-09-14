@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -5,20 +7,26 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
+import { useMediaQuery } from "@uidotdev/usehooks";
+import { FilterIcon, SortDescIcon } from "lucide-react";
 
 function TransactionsHeader() {
+  const isSmallDevice = useMediaQuery("only screen and (max-width:768px)");
+
   return (
     <div className="w-full flex justify-between items-center">
       <div>
         <Input
           placeholder="Search transaction"
-          className="w-[320px] bg-white"
+          className="lg:w-[320px] bg-white"
         />
       </div>
       <div className="flex gap-x-6 w-fit items-center">
         <div className="flex gap-x-2">
           <Select>
-            <SelectTrigger className="bg-white">Latest</SelectTrigger>
+            <SelectTrigger className="bg-white">
+              {isSmallDevice ? <SortDescIcon className="size-5" /> : "Latest"}
+            </SelectTrigger>
             <SelectContent>
               <SelectItem className="pl-2" value="latest">
                 Latest
@@ -42,7 +50,13 @@ function TransactionsHeader() {
           </Select>
         </div>
         <Select>
-          <SelectTrigger className="bg-white">All Transactions</SelectTrigger>
+          <SelectTrigger className="bg-white">
+            {isSmallDevice ? (
+              <FilterIcon className="size-5" />
+            ) : (
+              "All Transactions"
+            )}
+          </SelectTrigger>
           <SelectContent>
             <SelectItem className="p-2" value="all">
               All Transactions

@@ -1,4 +1,4 @@
-import { getUsersBalance } from "@/db/getUsersBalance"
+import { getUsersBalance } from "@/db/getUsersBalance";
 import BalanceItem from "./balance-item";
 
 async function BalanceSummary() {

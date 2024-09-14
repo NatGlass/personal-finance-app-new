@@ -14,11 +14,13 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { type Transaction, transactionsData } from "../data";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 function TransactionTable() {
-  // Columns for the table
-  const columns = useMemo<ColumnDef<Transaction>[]>(
-    () => [
+  const isSmallDevice = useMediaQuery("only screen and (max-width:768px)");
+
+  const columns = useMemo<ColumnDef<Transaction>[]>(() => {
+    const baseColumns: ColumnDef<Transaction>[] = [
       {
         accessorKey: "avatar",
         header: "Recipient / Sender",
@@ -36,28 +38,6 @@ function TransactionTable() {
         ),
       },
       {
-        accessorKey: "category",
-        header: "Category",
-        cell: ({ getValue }) => (
-          <Typography variant="preset5" className="text-grey-500 font-normal">
-            {getValue<string>()}
-          </Typography>
-        ),
-      },
-      {
-        accessorKey: "date",
-        header: "Transaction Date",
-        cell: ({ getValue }) => (
-          <Typography variant="preset5" className="text-grey-500 font-normal">
-            {new Date(getValue<string>()).toLocaleDateString(undefined, {
-              day: "numeric",
-              month: "short",
-              year: "numeric",
-            })}
-          </Typography>
-        ),
-      },
-      {
         accessorKey: "amount",
         header: "Amount",
         cell: ({ getValue }) => {
@@ -72,9 +52,44 @@ function TransactionTable() {
           );
         },
       },
-    ],
-    []
-  );
+    ];
+
+    // Add category and date columns only on larger screens
+    if (!isSmallDevice) {
+      baseColumns.push(
+        {
+          accessorKey: "category",
+          header: "Category",
+          cell: ({ getValue }) => (
+            <Typography
+              variant="preset5"
+              className="text-grey-500 font-normal hidden md:block"
+            >
+              {getValue<string>()}
+            </Typography>
+          ),
+        },
+        {
+          accessorKey: "date",
+          header: "Transaction Date",
+          cell: ({ getValue }) => (
+            <Typography
+              variant="preset5"
+              className="text-grey-500 font-normal hidden md:block"
+            >
+              {new Date(getValue<string>()).toLocaleDateString(undefined, {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </Typography>
+          ),
+        }
+      );
+    }
+
+    return baseColumns;
+  }, [isSmallDevice]);
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
