@@ -15,9 +15,9 @@ function RecurringBillsSummary() {
         </Button>
       </div>
       <div className="my-8 flex flex-col gap-y-3">
-        <BillItem name="Paid Bills" amount={190} colour="green" />
-        <BillItem name="Total Upcoming" amount={194.98} colour="yellow" />
-        <BillItem name="Due Soon" amount={59.98} colour="cyan" />
+        <BillItem name="Paid Bills" amount={190} className="border-green" />
+        <BillItem name="Total Upcoming" amount={194.98} className="border-yellow" />
+        <BillItem name="Due Soon" amount={59.98} className="border-cyan" />
       </div>
     </div>
   );
