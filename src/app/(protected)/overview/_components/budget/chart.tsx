@@ -42,8 +42,20 @@ function Chart() {
           outerRadius={200}
           fill="#8884d8"
         >
-          {chartData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={chartColourMap[entry.colorKey]} />
+          {chartData.map((entry) => (
+            <Cell
+              key={`cell-${entry.colorKey}`}
+              fill={
+                (
+                  chartColourMap[
+                    entry.colorKey as keyof typeof chartColourMap
+                  ] as Record<string, string>
+                )?.["500"] ||
+                (chartColourMap[
+                  entry.colorKey as keyof typeof chartColourMap
+                ] as string)
+              }
+            />
           ))}
           <Label
             content={({ viewBox }) => {

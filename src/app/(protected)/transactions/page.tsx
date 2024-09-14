@@ -1,10 +1,21 @@
+"use client";
+
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";
 import TransactionsContainer from "./_components/transactions-container";
 import TransactionsHeader from "./_components/transactions-header";
 import TransactionTable from "./_components/transactions-table";
+import { useState, useEffect } from "react";
 
-function OverviewPage() {
+function TransactionsPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
   return (
     <PageContainer>
       <div className="col-span-full flex justify-between items-center">
@@ -20,4 +31,4 @@ function OverviewPage() {
   );
 }
 
-export default OverviewPage;
+export default TransactionsPage;

@@ -10,11 +10,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useMediaQuery } from "@uidotdev/usehooks";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { type Transaction, transactionsData } from "../data";
-import { useMediaQuery } from "@uidotdev/usehooks";
+import { type Transaction, transactionsData } from "./data";
 
 function TransactionTable() {
   const isSmallDevice = useMediaQuery("only screen and (max-width:768px)");
