@@ -1,9 +1,9 @@
 "use client";
 
-import Logo from "@/assets/logo.png";
 import Image from "next/image";
 import SidebarLinkList from "./link-list";
 import MinimiseSidebar from "./minimise-sidebar";
+import Logo from "@/assets/logo.png";
 
 function Sidebar() {
   return (

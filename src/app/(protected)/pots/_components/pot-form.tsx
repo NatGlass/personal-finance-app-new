@@ -1,5 +1,6 @@
 "use client";
 
+import { colourMap } from "@/components/common/colour-map";
 import SelectColourIndicator from "@/components/common/select-colour-indicator";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +24,6 @@ import { useForm } from "react-hook-form";
 import { createPotAction } from "../actions/create-pot-action";
 import { updatePotAction } from "../actions/update-pot-action";
 import { type PotFormSchemaType, potSchema } from "../validators";
-import { colourMap } from "@/components/common/colour-map";
 
 interface PotFormProps {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -162,6 +162,7 @@ function PotForm({ setOpen, pot }: PotFormProps) {
 
                       return (
                         <SelectItem
+                          hasColour
                           key={value}
                           value={value}
                           colour={value as keyof typeof colourMap}
