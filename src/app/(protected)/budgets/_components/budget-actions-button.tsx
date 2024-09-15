@@ -11,9 +11,7 @@ import {
 import useConfirmationModal from "@/hooks/use-confirmation-modal";
 import { Ellipsis } from "lucide-react";
 import { useState } from "react";
-import { deletePotAction } from "../actions/delete-pot-action";
-import type { BudgetSchemaType, PotFormSchemaType } from "../validators";
-import PotModal from "./pot-modal";
+import type { BudgetSchemaType} from "../validators";
 import BudgetModal from "./budget-modal";
 import { deleteBudgetAction } from "../actions/delete-budget-action";
 

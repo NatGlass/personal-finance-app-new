@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { createBudgetAction } from "../actions/create-budget-action";
 import { type BudgetSchemaType, budgetSchema } from "../validators";
+import { updateBudgetAction } from "../actions/update-budget-action";
 
 interface BudgetFormProps {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -51,7 +52,7 @@ function BudgetForm({ setOpen, budget }: BudgetFormProps) {
     try {
       let result;
       if (isEditing) {
-        // result = await updatePotAction(data, pot.id);
+        result = await updateBudgetAction(data, budget.id);
       } else {
         result = await createBudgetAction(data);
       }
