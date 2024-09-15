@@ -17,6 +17,7 @@ function SidebarLink({ title, link, Icon }: SidebarLinkListProps) {
       className={cn("flex w-full pl-8 py-4 rounded-r-[12px]", {
         "bg-white": isActive,
         "hover:bg-white/10": !isActive,
+        "border-l-4 border-green": isActive,
       })}
     >
       <Icon
