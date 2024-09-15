@@ -1,4 +1,3 @@
-import { colourMap } from "@/components/common/colour-map";
 import DecorativeBar from "@/components/common/decorative-bar";
 import { Typography } from "@/components/typography/typography";
 import { formatCurrency } from "@/utils/format-currency";
@@ -10,11 +9,10 @@ interface PotProps {
 }
 
 function Pot({ title, colour, value }: PotProps) {
-  const bgColour = `${colourMap[colour as keyof typeof colourMap]}`;
 
   return (
     <div className="w-full flex">
-      <DecorativeBar bgColour={bgColour} />
+      <DecorativeBar bgColour={colour} />
       <div className="h-[43px]">
         <Typography variant="preset5" as="p" className="text-grey-500">
           {title}
