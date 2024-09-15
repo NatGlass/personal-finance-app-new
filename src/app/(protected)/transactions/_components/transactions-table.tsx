@@ -15,9 +15,54 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { type Transaction, transactionsData } from "./data";
+import TransactionsHeader from "./transactions-header";
 
 function TransactionTable() {
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("latest");
+  const [filter, setFilter] = useState("all");
+
   const isSmallDevice = useMediaQuery("only screen and (max-width:768px)");
+
+  const filteredAndSortedData = useMemo(() => {
+    let filteredData = transactionsData;
+
+    // Apply search
+    if (search) {
+      filteredData = filteredData.filter((transaction) =>
+        transaction.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // Apply category filter
+    if (filter !== "all") {
+      filteredData = filteredData.filter(
+        (transaction) =>
+          transaction.category.toLowerCase() === filter.toLowerCase() // Ensure filter matches category
+      );
+    }
+
+    // Apply sorting
+    if (sort === "latest") {
+      filteredData = filteredData.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime() // Convert to timestamps for comparison
+      );
+    } else if (sort === "oldest") {
+      filteredData = filteredData.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+    } else if (sort === "atoz") {
+      filteredData = filteredData.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sort === "ztoa") {
+      filteredData = filteredData.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (sort === "highest") {
+      filteredData = filteredData.sort((a, b) => a.amount - b.amount); // Compare amounts
+    } else if (sort === "lowest") {
+      filteredData = filteredData.sort((a, b) => b.amount - a.amount);
+    }
+
+    return filteredData;
+  }, [search, sort, filter]);
 
   const columns = useMemo<ColumnDef<Transaction>[]>(() => {
     const baseColumns: ColumnDef<Transaction>[] = [
@@ -96,30 +141,35 @@ function TransactionTable() {
     pageSize: 10,
   });
 
-  // Sliced data for current page
-  const paginatedData = useMemo(
-    () =>
-      transactionsData.slice(
-        pagination.pageIndex * pagination.pageSize,
-        (pagination.pageIndex + 1) * pagination.pageSize
-      ),
-    [pagination.pageIndex, pagination.pageSize]
-  );
+  const paginatedData = useMemo(() => {
+    return filteredAndSortedData.slice(
+      pagination.pageIndex * pagination.pageSize,
+      (pagination.pageIndex + 1) * pagination.pageSize
+    );
+  }, [filteredAndSortedData, pagination.pageIndex, pagination.pageSize]);
 
   const table = useReactTable({
-    data: paginatedData, // use sliced data
+    data: paginatedData,
     columns,
-    pageCount: Math.ceil(transactionsData.length / pagination.pageSize),
+    pageCount: Math.ceil(filteredAndSortedData.length / pagination.pageSize),
     state: {
       pagination,
     },
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
-    manualPagination: true, // We are manually paginating
+    manualPagination: true,
   });
 
   return (
     <div>
+      <TransactionsHeader
+        search={search}
+        setSearch={setSearch}
+        sort={sort}
+        setSort={setSort}
+        filter={filter}
+        setFilter={setFilter}
+      />
       <table className="min-w-full table-auto mt-6">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -195,3 +245,4 @@ function TransactionTable() {
 }
 
 export default TransactionTable;
+

@@ -10,7 +10,42 @@ import {
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { FilterIcon, SortDescIcon } from "lucide-react";
 
-function TransactionsHeader() {
+const sortOptions = [
+  { label: "Latest", value: "latest" },
+  { label: "Oldest", value: "oldest" },
+  { label: "A to Z", value: "atoz" },
+  { label: "Z to A", value: "ztoa" },
+  { label: "Highest", value: "highest" },
+  { label: "Lowest", value: "lowest" },
+];
+
+const filterOptions = [
+  { label: "All Transactions", value: "all" },
+  { label: "Entertainment", value: "entertainment" },
+  { label: "Bills", value: "bills" },
+  { label: "Groceries", value: "groceries" },
+  { label: "Dining Out", value: "dining out" },
+  { label: "Transportation", value: "transportation" },
+  { label: "Personal Care", value: "personal care" },
+];
+
+interface TransactionsHeaderProps {
+  search: string;
+  setSearch: (search: string) => void;
+  sort: string;
+  setSort: (sort: string) => void;
+  filter: string;
+  setFilter: (filter: string) => void;
+}
+
+function TransactionsHeader({
+  search,
+  setSearch,
+  sort,
+  setSort,
+  filter,
+  setFilter,
+}: TransactionsHeaderProps) {
   const isSmallDevice = useMediaQuery("only screen and (max-width:768px)");
 
   return (
@@ -19,37 +54,30 @@ function TransactionsHeader() {
         <Input
           placeholder="Search transaction"
           className="lg:w-[320px] bg-white"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </div>
       <div className="flex gap-x-6 w-fit items-center">
         <div className="flex gap-x-2">
-          <Select>
+          <Select value={sort} onValueChange={setSort}>
             <SelectTrigger className="bg-white">
               {isSmallDevice ? <SortDescIcon className="size-5" /> : "Latest"}
             </SelectTrigger>
             <SelectContent>
-              <SelectItem className="pl-2" value="latest">
-                Latest
-              </SelectItem>
-              <SelectItem className="pl-2" value="oldest">
-                Oldest
-              </SelectItem>
-              <SelectItem className="pl-2" value="atoz">
-                A to |
-              </SelectItem>
-              <SelectItem className="pl-2" value="ztoa">
-                Z to A
-              </SelectItem>
-              <SelectItem className="pl-2" value="highest">
-                Highest
-              </SelectItem>
-              <SelectItem className="pl-2" value="lowest">
-                Lowest
-              </SelectItem>
+              {sortOptions.map((option) => (
+                <SelectItem
+                  className="pl-2"
+                  value={option.value}
+                  key={option.value}
+                >
+                  {option.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
-        <Select>
+        <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="bg-white">
             {isSmallDevice ? (
               <FilterIcon className="size-5" />
@@ -58,27 +86,15 @@ function TransactionsHeader() {
             )}
           </SelectTrigger>
           <SelectContent>
-            <SelectItem className="p-2" value="all">
-              All Transactions
-            </SelectItem>
-            <SelectItem className="p-2" value="entertainment">
-              Entertainment
-            </SelectItem>
-            <SelectItem className="p-2" value="bills">
-              Bills
-            </SelectItem>
-            <SelectItem className="p-2" value="groceries">
-              Groceries
-            </SelectItem>
-            <SelectItem className="p-2" value="dining-out">
-              Dining Out
-            </SelectItem>
-            <SelectItem className="p-2" value="transportation">
-              Transportation
-            </SelectItem>
-            <SelectItem className="p-2" value="personal-care">
-              Personal Care
-            </SelectItem>
+            {filterOptions.map((option) => (
+              <SelectItem
+                className="pl-2"
+                value={option.value}
+                key={option.value}
+              >
+                {option.label}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
