@@ -1,6 +1,7 @@
 import ColourBadge from "@/components/common/colour-badge";
 import { Typography } from "@/components/typography/typography";
 import type { BudgetSchemaType} from "../validators";
+import BudgetActionsButton from "./budget-actions-button";
 
 interface BudgetCardProps {
   budget: BudgetSchemaType & { id: string };
@@ -14,6 +15,7 @@ function BudgetCard({budget}: BudgetCardProps) {
           <ColourBadge colour={budget.theme} />
           <Typography variant="preset2">{budget.category || "Bills"}</Typography>
         </div>
+        <BudgetActionsButton budget={budget} />
       </div>
     </div>
   );
