@@ -2,6 +2,7 @@ import ColourBadge from "@/components/common/colour-badge";
 import { Typography } from "@/components/typography/typography";
 import type { BudgetSchemaType} from "../validators";
 import BudgetActionsButton from "./budget-actions-button";
+import BudgetSpendBar from "./budget-spend-bar";
 
 interface BudgetCardProps {
   budget: BudgetSchemaType & { id: string };
@@ -17,6 +18,7 @@ function BudgetCard({budget}: BudgetCardProps) {
         </div>
         <BudgetActionsButton budget={budget} />
       </div>
+        <BudgetSpendBar spent={50} maxSpend={budget.maxSpend} fillColour={budget.theme} />
     </div>
   );
 }

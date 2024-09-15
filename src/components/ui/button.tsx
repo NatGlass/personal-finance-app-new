@@ -13,7 +13,7 @@ const buttonVariants = cva(
       variant: {
         default: `bg-grey-900 hover:bg-grey-500 ${typographyPresets.preset4Bold} text-white`,
         secondary: `bg-beige-100 ${typographyPresets.preset4Bold} text-grey-900 hover:bg-white hover:border hover:border-beige-500`,
-        tertiary: `text-grey-500 ${typographyPresets.preset4} hover:text-grey-900`,
+        tertiary: `text-grey-500 ${typographyPresets.preset4} hover:text-grey-900 font-normal`,
         destructive: `bg-red text-white ${typographyPresets.preset4Bold} hover:bg-red/80`,
         link: "text-primary underline-offset-4 hover:underline",
       },
