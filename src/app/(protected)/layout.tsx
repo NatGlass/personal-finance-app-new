@@ -1,6 +1,6 @@
 import Sidebar from "@/components/navigation/sidebar";
 
-function ProtectedLayout({ children }: { children: React.ReactNode }) {
+async function ProtectedLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full h-full">
       <Sidebar />
