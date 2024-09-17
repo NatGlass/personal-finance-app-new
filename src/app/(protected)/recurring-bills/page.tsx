@@ -1,10 +1,20 @@
+"use client";
+
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";
+import { useEffect, useState } from "react";
 import BillCard from "./_components/bill-card";
 import BillTable from "./_components/bill-table";
 import SummaryCard from "./_components/summary-card";
 
 function RecurringBillsPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
   return (
     <PageContainer>
       <div className="col-span-full row-span-full flex justify-between items-center">
