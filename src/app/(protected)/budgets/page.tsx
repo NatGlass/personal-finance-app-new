@@ -7,8 +7,12 @@ import { getUsersBudgets } from "@/db/getUsersBudgets";
 import AddBudgetButton from "./_components/add-budget-button";
 import BudgetCard from "./_components/budget-card";
 import { Categories } from "./categories";
+
 async function BudgetsPage() {
   const budgets = await getUsersBudgets();
+
+  if (!budgets) return null;
+
   return (
     <PageContainer>
       <div className="col-span-full flex justify-between items-center">

@@ -10,6 +10,8 @@ import PotCard from "./_components/pot-card";
 async function PotsPage() {
   const potsData = await getUsersPots();
 
+  if (!potsData) return null;
+
   const sortedPots = potsData?.sort((a, b) => {
     const dateA = new Date(a.updatedAt || a.createdAt).getTime();
     const dateB = new Date(b.updatedAt || b.createdAt).getTime();
