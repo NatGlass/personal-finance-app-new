@@ -1,14 +1,96 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id              String       @id @default(uuid())
+  name            String
+  email           String       @unique
+  passwordHash    String
+
+  currentBalance  Float        @default(4836.00)
+  income          Float        @default(3814.25)
+  expenses        Float        @default(1700.50)
+
+  session        Session[]
+  budgets         Budget[]
+  pots            Pot[]
+  transactions    Transaction[]
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@map("users")
+}
+
+model Session {
+  id              String       @id @default(uuid())
+  userId          String
+  expiresAt      DateTime     @default(now())
+
+  user            User         @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+model Transaction {
+  id              String       @id @default(cuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id])
+
+  name            String
+  avatar          String?
+  amount          Float
+  transaction_date DateTime
+  recurring       Boolean      @default(false)
+
+  categoryId      String
+  category        Category     @relation(fields: [categoryId], references: [id])
+
+  @@map("transactions")
+}
+
+model Budget {
+  id              String       @id @default(cuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id])
+
+  categoryId      String
+  category        Category     @relation(fields: [categoryId], references: [id])
+
+  maximum         Float
+  theme           String
+
+  @@map("budgets")
+}
+
+model Pot {
+  id              String       @id @default(cuid())
+  userId          String
+  user            User         @relation(fields: [userId], references: [id])
+
+  name            String
+  target          Float
+  total           Float
+  theme           String
+
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@map("pots")
+}
+
+model Category {
+  id              String       @id @default(cuid())
+  name            String       @unique
+
+  Budget          Budget[]
+  Transaction     Transaction[]
+
+  @@map("categories")
 }

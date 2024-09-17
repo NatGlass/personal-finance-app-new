@@ -1,0 +1,17 @@
+export const colourMap = {
+  red: "bg-red",
+  green: "bg-green",
+  cyan: "bg-cyan",
+  blue: "bg-blue",
+  yellow: "bg-yellow",
+  navy: "bg-navy",
+  purple: "bg-purple-dark",
+  brown: "bg-brown",
+  pink: "bg-purple-light",
+  gold: "bg-gold",
+  orange: "bg-orange",
+  "navy-grey": "bg-navy-grey",
+  "army-green": "bg-army-green",
+  magenta: "bg-magenta",
+  turquoise: "bg-turquoise",
+};
