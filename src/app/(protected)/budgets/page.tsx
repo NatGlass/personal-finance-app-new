@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { colourMap } from "@/components/common/colour-map";
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";
@@ -5,7 +7,6 @@ import { getUsersBudgets } from "@/db/getUsersBudgets";
 import AddBudgetButton from "./_components/add-budget-button";
 import BudgetCard from "./_components/budget-card";
 import { Categories } from "./categories";
-
 async function BudgetsPage() {
   const budgets = await getUsersBudgets();
   return (

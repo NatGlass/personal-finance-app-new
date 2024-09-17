@@ -20,5 +20,9 @@ export async function getUsersBudgets() {
     },
   });
 
+  if (!data) {
+    return null;
+  }
+
   return data;
 }

@@ -23,5 +23,9 @@ export async function getUsersPots() {
     },
   });
 
+  if (!data) {
+    return null;
+  }
+
   return data;
 }
