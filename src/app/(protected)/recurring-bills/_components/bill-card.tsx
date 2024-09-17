@@ -4,7 +4,7 @@ import { ReceiptPoundSterlingIcon } from "lucide-react";
 
 function BillCard() {
   return (
-    <div className="flex bg-grey-900 py-6 px-5 rounded-[12px] md:flex-col md:items-start text-white items-center gap-x-5 lg:p-6 w-full">
+    <div className="flex bg-grey-900 py-6 px-5 rounded-[12px] md:flex-col md:items-start text-white items-center gap-x-5 lg:p-6 w-full lg:col-span-4">
       <ReceiptPoundSterlingIcon className="size-10" />
       <div className="md:mt-8">
         <Typography variant="preset4" className="font-normal">Total Bills</Typography>

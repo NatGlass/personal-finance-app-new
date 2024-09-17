@@ -1,6 +1,7 @@
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";
 import BillCard from "./_components/bill-card";
+import BillTable from "./_components/bill-table";
 import SummaryCard from "./_components/summary-card";
 
 function RecurringBillsPage() {
@@ -11,10 +12,11 @@ function RecurringBillsPage() {
           Recurring Bills
         </Typography>
       </div>
-      <div className="col-span-full md:col-span-6 lg:col-span-4 flex flex-col gap-y-3 lg:gap-y-6">
+      <div className="col-span-full lg:col-span-4 flex flex-col gap-y-3 lg:gap-y-6">
         <BillCard />
         <SummaryCard />
       </div>
+      <BillTable />
     </PageContainer>
   );
 }
