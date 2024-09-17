@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { colourMap } from "@/components/common/colour-map";
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";
@@ -10,8 +8,6 @@ import { Categories } from "./_components/categories";
 
 async function BudgetsPage() {
   const budgets = await getUsersBudgets();
-
-  if (!budgets) return null;
 
   return (
     <PageContainer>

@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { colourMap } from "@/components/common/colour-map";
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";
@@ -9,8 +7,6 @@ import PotCard from "./_components/pot-card";
 
 async function PotsPage() {
   const potsData = await getUsersPots();
-
-  if (!potsData) return null;
 
   const sortedPots = potsData?.sort((a, b) => {
     const dateA = new Date(a.updatedAt || a.createdAt).getTime();
