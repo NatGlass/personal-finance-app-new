@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { colourMap } from "@/components/common/colour-map";
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import PageContainer from "@/components/common/page-container";
 import { Typography } from "@/components/typography/typography";
 import BalanceSummary from "./_components/balance/balance-summary";
