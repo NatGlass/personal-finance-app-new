@@ -4,10 +4,11 @@ import { Typography } from "@/components/typography/typography";
 import { getUsersBudgets } from "@/db/getUsersBudgets";
 import AddBudgetButton from "./_components/add-budget-button";
 import BudgetCard from "./_components/budget-card";
-import { Categories } from "./categories";
+import { Categories } from "./_components/categories";
 
 async function BudgetsPage() {
   const budgets = await getUsersBudgets();
+
   return (
     <PageContainer>
       <div className="col-span-full flex justify-between items-center">

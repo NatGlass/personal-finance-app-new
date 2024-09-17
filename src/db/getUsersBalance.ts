@@ -19,5 +19,9 @@ export async function getUsersBalance() {
     },
   });
 
+  if (!data) {
+    return null;
+  }
+
   return data;
 }
